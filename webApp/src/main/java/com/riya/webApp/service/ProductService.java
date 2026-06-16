@@ -13,4 +13,11 @@ public class ProductService {
         return products;
     }
 
+    public Product getProId(int proId){
+        return products.stream()
+                .filter(pro -> pro.getProId() == proId)
+                .findFirst().get();
+
+    }
+
 }

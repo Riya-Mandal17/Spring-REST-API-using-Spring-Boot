@@ -26,4 +26,12 @@ public class ProductService {
         products.add(pro);
     }
 
+    public void upatePro(Product pro) {
+        int index = 0;
+        for(int i =0;i<products.size() ;i++)
+            if(products.get(i).getProId() == pro.getProId())
+                index = i;
+
+        products.set(index, pro);
+    }
 }

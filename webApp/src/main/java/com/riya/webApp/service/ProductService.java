@@ -1,6 +1,8 @@
 package com.riya.webApp.service;
 
 import com.riya.webApp.model.Product;
+import com.riya.webApp.repo.ProductRepo;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -9,39 +11,29 @@ import java.util.List;
 
 @Service
 public class ProductService {
-    List<Product> products = new ArrayList<>(Arrays.asList(new Product(101,"Chocolate",500),
-            new Product(102,"Chips",500)));
+    @Autowired
+    ProductRepo repo;
+//    List<Product> products = new ArrayList<>(Arrays.asList(new Product(101,"Chocolate",500),
+//            new Product(102,"Chips",500)));
     public List<Product> getProduct(){
-        return products;
+        return repo.findAll();
     }
 
     public Product getProId(int proId){
-        return products.stream()
-                .filter(pro -> pro.getProId() == proId)
-                .findFirst().get();
+        return repo.findById(proId).orElse(new Product());
 
     }
 
     public void addPro(Product pro){
-        products.add(pro);
+        repo.save(pro);
     }
 
     public void upatePro(Product pro) {
-        int index = 0;
-        for(int i =0;i<products.size() ;i++)
-            if(products.get(i).getProId() == pro.getProId())
-                index = i;
-
-        products.set(index, pro);
+        repo.save(pro);
     }
 
     public void deleteProduct(int proId) {
-        int index = 0;
-        for(int i =0;i<products.size() ;i++) {
-            if (products.get(i).getProId() == proId)
-                index = i;
-        }
-        products.remove(index);
+        repo.deleteById(proId);
 
     }
 }
